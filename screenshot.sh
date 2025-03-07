@@ -7,22 +7,8 @@ PASSWORD="SUPERSET_PASSWORD"
 DASHBOARD_SLUG="DASHBOARD_SLUG"
 SCREENSHOT_PATH="dashboard_screenshot.png"
 
-# Prérequis
-# Avoir installé cela sur Debian :
-# sudo apt update && sudo apt install -y \
-#   ca-certificates curl fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 \
-#   libatk1.0-0 libcups2 libdbus-1-3 libgbm1 libglib2.0-0 libnspr4 libnss3 libpango-1.0-0 \
-#   libpangocairo-1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxfixes3 libxrandr2 \
-#   libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
-# et cela sur RHEL/CentOS/Alma:
-# sudo dnf install -y \
-#   alsa-lib atk cups-libs dbus-glib fontconfig GConf2 glib2 \
-#   gtk3 libX11 libXcomposite libXcursor libXdamage libXext \
-#   libXi libXrandr libXrender libXScrnSaver libXtst nss \
-#   pango xdg-utils wget
-
+# Nettoyer les cookies anciens
 rm -f cookies.txt
-rm -f cookies_base.txt
 
 # Obtenir le token CSRF
 CSRF_TOKEN=$(curl -c cookies.txt -b cookies.txt -s "$SUPERSET_URL/login/" | grep -oP 'name="csrf_token" type="hidden" value="\K[^"]+')
@@ -34,8 +20,8 @@ curl -c cookies.txt -b cookies.txt -s -X POST "$SUPERSET_URL/login/" \
   -d "password=$PASSWORD"
 
 # Vérifier si Puppeteer est installé, sinon l'installer
-type npm >/dev/null 2>&1 || { echo "npm est requis mais non installé. Veuillez l'installer."; exit 1; }
-npm list puppeteer >/dev/null 2>&1 || { echo "puppeteer est requis mais non installé. Veuillez l'installer avec la commande : npm install puppeteer."; exit 1; }
+type npm >/dev/null 2>&1 || { echo "npm est requis mais non installé. Veuillez l'installer puis relancer le script. // npm is required but not installed. Please install it and run again this script."; exit 1; }
+npm list puppeteer >/dev/null 2>&1 || { echo "puppeteer est requis mais non installé. Veuillez l'installer avec la commande : npm install puppeteer. // puppeteer is required but not installed. Please install it with this command: npm install puppeteer."; exit 1; }
 
 cookies_name="session"
 cookies_path="/"
